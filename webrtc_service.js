@@ -7,7 +7,7 @@ const WebRTCServiceMixin = {
   data() {
     return {
       // GANTI URL DI BAWAH INI DENGAN URL DARI NOTEPAD ANDA
-      gasEndpoint: "PASTE_URL_EXEC_ANDA_DISINI" 
+      gasEndpoint: "https://script.google.com/macros/s/AKfycbxruSjnzYurpnQt7qMPYOym4ocT98RC2gNpaFpO3HYzuAGMPbK3mb2IeJ4436_XIyg5xA/exec" 
     }
   },
   methods: {
