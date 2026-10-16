@@ -1,16 +1,32 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hierarchi Sistem</title>
-    <style>
-        /* Kode ini membuat Web App Google Anda tampil penuh selayaknya website asli */
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #ffffff; }
-        iframe { width: 100%; height: 100%; border: none; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hierarchi Sistem</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box}body,html{margin:0;height:100%;overflow:hidden;background:#fbf9f9;color:#1b1c1c;font-family:Manrope,sans-serif}
+    iframe{width:100%;height:100%;border:0;position:fixed;inset:0;visibility:hidden;background:white}body.ready iframe{visibility:visible}
+    main{height:100%;display:grid;place-items:center;padding:24px}section{width:min(100%,440px);border-top:6px solid #fcb040;background:white;border-radius:16px;padding:34px;box-shadow:0 8px 36px #0000000a}
+    h1{font-family:'Space Grotesk',sans-serif;letter-spacing:.2em;font-size:25px;margin:0}small{display:block;letter-spacing:.36em;font-size:10px;margin:4px 0 30px}h2{font-size:18px;margin:0 0 12px}p{font-size:13px;line-height:1.8;color:#6b6b6b;margin:0 0 22px}
+    .actions{display:flex;gap:10px;flex-wrap:wrap}a,button{font:600 12px Manrope,sans-serif;border-radius:8px;padding:12px 16px;text-decoration:none;cursor:pointer}a{background:#1b1c1c;color:white}button{border:1px solid #ddd;background:white;color:#1b1c1c}button:disabled{opacity:.5;cursor:wait}.dot{display:inline-block;width:8px;height:8px;background:#fcb040;border-radius:50%;margin-right:8px;animation:pulse 1s infinite}@keyframes pulse{50%{opacity:.35}}
+    body.ready main{display:none}@media(prefers-reduced-motion:reduce){.dot{animation:none}}
+  </style>
 </head>
 <body>
-    <iframe src="https://script.google.com/macros/s/AKfycbxruSjnzYurpnQt7qMPYOym4ocT98RC2gNpaFpO3HYzuAGMPbK3mb2IeJ4436_XIyg5xA/exec"></iframe>
+  <main id="loading"><section aria-live="polite">
+    <h1>HIERARKI</h1><small>ARCHITECT</small>
+    <h2 id="status"><span class="dot"></span>Membuka workspace…</h2>
+    <p id="message">Menyiapkan aplikasi dan koneksi Google. Jika belum terbuka, gunakan tombol di bawah.</p>
+    <div class="actions"><a id="open-app" href="https://script.google.com/macros/s/AKfycbxruSjnzYurpnQt7qMPYOym4ocT98RC2gNpaFpO3HYzuAGMPbK3mb2IeJ4436_XIyg5xA/exec">Buka aplikasi ↗</a><button id="retry" type="button">Coba muat kembali</button></div>
+  </section></main>
+  <iframe id="workspace" title="Workspace Hierarki" src="https://script.google.com/macros/s/AKfycbxruSjnzYurpnQt7qMPYOym4ocT98RC2gNpaFpO3HYzuAGMPbK3mb2IeJ4436_XIyg5xA/exec"></iframe>
+  <script>
+    const frame=document.getElementById('workspace'),retry=document.getElementById('retry');let timer;
+    const start=()=>{document.body.classList.remove('ready');retry.disabled=true;document.getElementById('status').textContent='Membuka workspace…';document.getElementById('message').textContent='Menyiapkan aplikasi dan koneksi Google. Jika belum terbuka, gunakan tombol di bawah.';clearTimeout(timer);timer=setTimeout(()=>{retry.disabled=false;document.getElementById('status').textContent='Workspace belum terbuka';document.getElementById('message').textContent='Koneksi Google di dalam halaman belum selesai. Tekan Buka aplikasi untuk melanjutkan pada halaman aplikasi yang sama.';},12000);};
+    window.addEventListener('message',event=>{if(event.data?.type!=='hierarki-ready'||!/^https:\/\/(?:[a-z0-9-]+\.)*googleusercontent\.com$/.test(event.origin)&&event.origin!=='https://script.google.com')return;clearTimeout(timer);retry.disabled=false;document.body.classList.add('ready');});
+    retry.addEventListener('click',()=>{start();frame.src=document.getElementById('open-app').href;});start();
+  </script>
 </body>
 </html>
